@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div v-if="$store.state.editForm">
+    <EditForm/>
+
+    </div>
     <ul>
       <li v-for="todo in todos" :key="todo.id">
         <span v-if="todo.created">
@@ -7,6 +11,7 @@
           <span :class="{ done: todo.done }">
           {{ todo.name }} {{ todo.created.toDate() | dateFilter }}
           </span>
+          <button @click="editFormDisplay(todo)">編集</button>
           <button @click="remove(todo.id)">x</button>
         </span>
       </li>
@@ -17,6 +22,8 @@
         <button>Add</button>
       </form>
     </div>
+
+    {{ $store.state.todos.editForm }}
   </div>
 </template>
 
@@ -26,7 +33,7 @@
     data () {
       return {
         name: '',
-        done: false
+        done: false,
       }
     },
     created () {
@@ -40,13 +47,21 @@
       remove(id) {
         this.$store.dispatch('todos/remove', id)
       },
+      editFormDisplay (todo) {
+        this.$store.commit('editFormDisplay')
+        this.$store.commit('editPre', {id: todo.id, name: todo.name})
+      },
       toggle(todo) {
         this.$store.dispatch('todos/toggle', todo)
-      }
+      },
+      
     },
     computed: {
       todos () {
         return this.$store.getters['todos/orderdTodos']
+      },
+      editFormDis () {
+        return this.$store.getters['todos/']
       }
     },
     filters: {

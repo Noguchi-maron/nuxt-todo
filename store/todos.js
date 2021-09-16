@@ -5,7 +5,10 @@ const db = firebase.firestore()
 const todosRef = db.collection('todos')
 
 export const state = () => ({
-  todos: []
+  todos: [],
+  editId: '',
+  editText: '',
+  editForm: false
 })
 
 export const actions = {
@@ -24,15 +27,24 @@ export const actions = {
   remove: firestoreAction((context, id) => {
     todosRef.doc(id).delete()
   }),
+  edit: firestoreAction((context, {id, text}) => {
+    todosRef.doc(id).update({
+      name: text
+    })
+  }),
   toggle: firestoreAction((context, todo) => {
     todosRef.doc(todo.id).update({
       done: !todo.done
     })
   })
+
 }
 
 export const getters = {
   orderdTodos (state) {
     return _.sortBy(state.todos, 'created')
+  },
+  stateEditForm(state) {
+    return state.editForm
   }
 }

@@ -5,10 +5,10 @@ const db = firebase.firestore()
 const todosRef = db.collection('todos')
 
 export const state = () => ({
+  editForm: false,
   todos: [],
   editId: '',
   editText: '',
-  editForm: false
 })
 
 export const actions = {
@@ -36,8 +36,7 @@ export const actions = {
     todosRef.doc(todo.id).update({
       done: !todo.done
     })
-  })
-
+  }),
 }
 
 export const getters = {

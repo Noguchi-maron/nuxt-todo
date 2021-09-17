@@ -21,14 +21,14 @@ export default {
     }
   },
   created () {
-    this.id = this.$store.state.editId
-    this.text = this.$store.state.editText
+    this.id = this.$store.state.todos.editId
+    this.text = this.$store.state.todos.editText
   },
   methods: {
     edit(id, text) {
       this.$store.dispatch('todos/edit', {id: id, text: text})
       this.$store.commit('editInit')
-      this.$store.commit('editFormHidden')
+      this.$emit('edit')
     },
     
   }
@@ -65,7 +65,7 @@ export default {
 }
 
 .mask {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.6);
   position: fixed;
   top: 0;
   left: 0;

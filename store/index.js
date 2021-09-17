@@ -1,19 +1,13 @@
 import { vuexfireMutations } from 'vuexfire'
 
 export const mutations = {
-  editFormDisplay(state) {
-    state.editForm = true
-  },
-  editFormHidden(state) {
-    state.editForm = false
-  },
   editPre (state, {id, name})  {
-    state.editId = id
-    state.editText = name
+    state.todos.editId = id
+    state.todos.editText = name
   },
   editInit (state) {
-    state.editId = ''
-    state.editText = ''
+    state.todos.editId = ''
+    state.todos.editText = ''
   },
 
   ...vuexfireMutations

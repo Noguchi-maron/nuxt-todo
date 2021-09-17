@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="$store.state.editForm">
-    <EditForm/>
+    <div v-if="editForm">
+    <EditForm @edit="editForm = !editForm" />
 
     </div>
     <ul>
@@ -22,8 +22,6 @@
         <button>Add</button>
       </form>
     </div>
-
-    {{ $store.state.todos.editForm }}
   </div>
 </template>
 
@@ -34,6 +32,7 @@
       return {
         name: '',
         done: false,
+        editForm: false
       }
     },
     created () {
@@ -48,7 +47,7 @@
         this.$store.dispatch('todos/remove', id)
       },
       editFormDisplay (todo) {
-        this.$store.commit('editFormDisplay')
+        this.editForm = !this.editForm
         this.$store.commit('editPre', {id: todo.id, name: todo.name})
       },
       toggle(todo) {
@@ -60,9 +59,6 @@
       todos () {
         return this.$store.getters['todos/orderdTodos']
       },
-      editFormDis () {
-        return this.$store.getters['todos/']
-      }
     },
     filters: {
       dateFilter (date) {
